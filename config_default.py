@@ -1,9 +1,9 @@
 configs = {
     'db':{
-        'host':'192.68.9.104',
+        'host':'47.89.54.152',
         'port':3306,
-        'user':'kaluli',
-        'password':'kaluli',
+        'user':'root',
+        'password':'margin-right:4pxsolid#EEE;',
         'database':'test'
     }, 
     'session':{
