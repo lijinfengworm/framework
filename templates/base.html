@@ -1,0 +1,101 @@
+<!doctype html>
+<html>
+    <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/css/bootstrap-markdown.min.css">
+    <link rel="stylesheet" href="/static/css/jblog.css">
+    <link rel="shortcut icon" href="/static/img/favicon.ico" />
+    <title>Jiffies's Blog</title>
+    <script src="/static/js/jquery-2.1.3.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/imagesloaded.pkgd.min.js"></script>
+    <script src="/static/js/masonry.pkgd.min.js"></script>
+    <script src="/static/js/markdown.js"></script>
+    <script src="/static/js/to-markdown.js"></script>
+    <script src="/static/js/bootstrap-markdown.js"></script>
+    <script src="/static/js/jblog.js"></script>
+    <script type="text/javascript"
+      src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+    {% block head %}
+    {% endblock %}
+    </head>
+    <body>
+        <div id="sidebar">
+        <aside class="oi">
+            <div id="logo">
+                <a href="/"><img src="/static/img/y.jpeg"> </img></a>
+            </div>
+            <h3 id="logo-sub">Jiffies's Blog</h3>
+            <hr></hr>
+            <nav>
+                <ul>
+                    <li><a href="/">博客</a></a></li>
+                    <li><a href="/tagcloud">标签云</a></li>
+                    <li><a href="/about">关于</a></li>
+                </ul>
+            </nav>
+            <hr></hr>
+            <!--<div id="search-form">-->
+                <!--<form>-->
+                    <!--<input type="text" id="search-input" value="搜索">-->
+                    <!--<input type="image" src="/static/img/search-btn.png">-->
+                <!--</form>-->
+            <!--</div>-->
+
+        </aside>
+        <footer id="footer">
+            <ul id="social-icons">
+                <li><a target="_blank" href="https://github.com/jiffies"><i class="fa fa-github fa-2x"></i></a></li>
+                <li><a target="_blank" href="http://weibo.com/2068794623"><i class="fa fa-weibo fa-2x"></i></a></li>
+                <!--<li><a target="_blank" href=""><img src="/static/img/mail.png"></img></a></li>-->
+            </ul>
+                <div id="fleft">
+                    <div class="f-oi">
+                        <p class="footer-text">ALL RIGHTS RESERVED 2015</p>
+                    </div>
+                </div>
+
+
+        </footer>
+        </div>
+        <div id="container">
+            <!--<audio src="/static/mp3/tashuo.mp3" preload="auto" autobuffer loop="true" controls></audio>-->
+            <div id="inner">
+        {% block content %}
+        {% endblock %}
+                <div id="fright">
+                    <div class="f-oi">
+                        <p class="footer-text">Powered by Jiffies</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="manage">
+
+                            
+            <ul>
+                <li>
+            {% if user %}
+            <p><a href="/signout">Logout</a></p>
+            {% else %}
+            <p><a href="/signin">Login</a></p>
+            {% endif %}
+            </li>
+                <li><p><a href="/manage/add_blog">Add</a></p></li>
+                {% if blog and user %}
+                <li><p><a href="" data-toggle="modal" data-target="#confirm">Delete</a></p></li>
+                {% endif %}
+                {% if blog and user %}
+                <li><p><a href="/manage/edit/{{blog.id}}">Edit</a></p></li>
+                {% endif %}
+            </ul>
+        </div>
+        {% block confirm %}
+        {% endblock %}
+    </body>
+</html>

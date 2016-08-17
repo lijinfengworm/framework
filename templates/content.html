@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+            <div id="container-inner">
+            {% for blog in blogs %}
+            {% if loop.index == 1 and blogs|length > 1%}
+            <div class="main article">
+            {% else %}
+            <div class="sub article">
+            {% endif %}
+                <div class="oi-sub">
+                <div class="tag">
+                    <a href="/tag/{{blog.tag.id}}"><p>{{blog.tag.name}}</p></a>
+                </div>
+                <a href="/blog/{{blog.id}}">
+                <img src="{{blog.image}}"></img>
+                <p class="title">{{blog.title}}</p>
+                </a>
+                <div class="content">{{blog.content | safe }}</div>
+                </div>
+            </div>
+            {% endfor %}
+            </div>
+{% endblock %}

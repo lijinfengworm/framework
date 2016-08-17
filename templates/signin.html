@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+        <div id="front">
+        <form class="form-horizontal" id="signin" method="post" action="/api/authenticate">
+            <div class="form-group">
+            <label for="username" class="contorl-label">用户名</label>
+                <input type="text" name="email" class="form-control"/>
+            </div>
+            <div class="form-group">
+            <label for="password" class="contorl-label">密码</label>
+            <input type="password" class="form-control" name="password"/>
+            </div>
+
+            <div class="form-group">
+            <button type="submit" class="btn btn-default">登陆</button>
+            </div>
+        </form>
+        </div>
+{% endblock %}
