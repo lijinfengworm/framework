@@ -11,22 +11,23 @@ from framework.apis import api, Page, APIError, APIValueError, APIPermissionErro
 import os.path
 import os, re, time, base64, hashlib, logging
 from config import configs
-#import sae.storage
+import sae.storage
 import markdown2
 from framework import db
 import random
-#import sae.kvdb
-#from sae.taskqueue import Task,TaskQueue
+import sae.kvdb
+from sae.taskqueue import Task,TaskQueue
 import base64
 
-#kv = sae.kvdb.Client()
+
+kv = sae.kvdb.Client()
 counter_queue = TaskQueue(configs.taskqueue)
 
 _COOKIE_NAME = 'jblog'
 _COOKIE_KEY = configs.session.secret
 CHUNKSIZE = 8192
 UPLOAD_PATH='upload'
-#SAE_BUCKET = configs.storage['bucket']
+SAE_BUCKET = configs.storage['bucket']
 
 def tag_count_add(tag):
     tag.number+=1
@@ -161,7 +162,7 @@ def check_admin():
         return
     raise APIPermissionError('No permission.')
 
-'''def upload(image):
+def upload(image):
     filename = os.path.join(UPLOAD_PATH,hashlib.md5(image.filename.encode('utf-8')).hexdigest()+uuid.uuid4().hex)
     if 'SERVER_SOFTWARE' in os.environ:
        conn = sae.storage.Connection() 
@@ -187,7 +188,7 @@ def delete_upload(filename):
         if os.path.isfile(filename):
             os.remove(filename)
     logging.info("remove file %s." % filename)
-'''
+
 def add_tags(blog_id,tags):
     if not tags:
         return
