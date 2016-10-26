@@ -62,19 +62,12 @@ html,body{
             body{
                 color:#7A7575;
             }
-            #sidebar{
-                position:fixed;
-                width:26%;
-                height:100%;
-                background-color:#459E63;
-            }
+            
             .oi{
                 padding:15.1%  9% 0px 9%;
             
             }
             #container{
-                margin-left:26%;
-                width:74%;
                 background-color:#F5F1E4;
                 min-height:100%;
             }

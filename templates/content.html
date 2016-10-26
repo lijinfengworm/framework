@@ -1,23 +1,100 @@
 {% extends "base.html" %}
+{% block head %}
+    <link rel="stylesheet" type="text/css" href="/static/css/jqcloud.css" />
+    <script type="text/javascript" src="/static/js/jqcloud-1.0.4.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/echarts/3.2.3/echarts.js"></script>
+
+{% endblock %}
 {% block content %}
             <div id="container-inner">
-            {% for blog in blogs %}
-            {% if loop.index == 1 and blogs|length > 1%}
             <div class="main article">
-            {% else %}
-            <div class="sub article">
-            {% endif %}
-                <div class="oi-sub">
-                <div class="tag">
-                    <a href="/tag/{{blog.tag.id}}"><p>{{blog.tag.name}}</p></a>
-                </div>
-                <a href="/blog/{{blog.id}}">
-                <img src="{{blog.image}}"></img>
-                <p class="title">{{blog.title}}</p>
-                </a>
-                <div class="content">{{blog.content | safe }}</div>
-                </div>
+            <table>
+                <tr>
+                    <th style="width: 50%; ">商品名称</th>
+                    <th style="width: 10%; ">单价</th>
+                    <th style="width: 10%; ">销量</th>
+                    <th style="width: 10%; ">评分</th>
+                    <th>操作</th>
+                </tr>
+                {% for blog in blogs %}
+                {% if loop.index == 1 %}
+                <tr style="line-height: 70px; color:red" >
+                    <td>{{ blog.title }}</td>
+                    <td>{{ blog.price }}</td>
+                    <td>{{ blog.sales }}</td>
+                    <td>{{ blog.rated }}</td>
+                    <td><a target="_blank" href="/blog/{{ blog.goods_id }}">详情</a></td>
+                </tr>
+                {% elif loop.index < 4 %}
+                <tr style="line-height: 70px; color:green;" >
+                    <td>{{ blog.title }}</td>
+                    <td>{{ blog.price }}</td>
+                    <td>{{ blog.sales }}</td>
+                    <td>{{ blog.rated }}</td>
+                    <td><a target="_blank" href="/blog/{{ blog.goods_id }}">详情</a></td>
+                </tr>
+                {% else %}
+                <tr style="line-height: 70px;" >
+                    <td>{{ blog.title }}</td>
+                    <td>{{ blog.price }}</td>
+                    <td>{{ blog.sales }}</td>
+                    <td>{{ blog.rated }}</td>
+                    <td><a target="_blank" href="/blog/{{ blog.goods_id }}">详情</a></td>
+                </tr>
+
+                {% endif %}
+                {% endfor %}
+            </table>
             </div>
-            {% endfor %}
-            </div>
+                <div id="front">
+            <div id="main" style="width: 100%;height:800px;"></div>
+        <script type="text/javascript">
+            // 基于准备好的dom，初始化echarts实例
+            var myChart = echarts.init(document.getElementById('main'));
+            var dat = [
+                {% for data in blogs %}
+                        {
+                            value : [100, {{data.price}}, {{data.sales}}, {{data.rated}}],
+                            name : "{{data.title}}"
+                        },
+                    
+                {% endfor %}
+            ];
+            var title = [
+                {% for data in blogs %}
+                        "{{data.title}}",
+                {% endfor %}
+            ];
+            
+            // 指定图表的配置项和数据
+            option = {
+                title: {
+                    text: '商品属性权重的多级匹配算法'
+                },
+                tooltip: {},
+                legend: {
+                    data: title
+                },
+                radar: {
+                    // shape: 'circle',
+                    indicator: [
+                       { name: '平台(权重暂不考虑)', max: 100},
+                       { name: '单价（权重为1）', max: 1000},
+                       { name: '销量（权重为2）', max: 1000},
+                       { name: '评价（权重为3）', max: 100}
+                       
+                    ]
+                },
+                series: [{
+                    name: '权重对应商品属性值',
+                    type: 'radar',
+                    // areaStyle: {normal: {}},
+                    data : dat
+                }]
+            };
+            // 使用刚指定的配置项和数据显示图表。
+            myChart.setOption(option);
+        </script>
+           </div>
+           
 {% endblock %}

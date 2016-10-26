@@ -5,9 +5,9 @@
 A simple, lightweight, WSGI-compatible web framework.
 '''
 
-__author__ = 'Michael Liao'
+__author__ = 'kworm'
 
-import types, os, re, cgi, sys, time, datetime, functools, mimetypes, threading, logging, urllib, traceback
+import types, os, re, cgi, sys, time, datetime, functools, mimetypes, threading, logging, urllib, urllib2, traceback, redis
 
 try:
     from cStringIO import StringIO
@@ -19,6 +19,41 @@ except ImportError:
 ctx = threading.local()
 
 # Dict object:
+class RedisPool(object):
+    """docstring for RedisPool"""
+    def __init__(self, host, port, user, passwd, db):
+        self.host = host
+        self.port = port
+        self.db = db
+        self.user = user
+        self.passwd = passwd
+    
+    def pool(self):
+        pool = redis.ConnectionPool(host=self.host, port=self.port,  password=self.passwd)
+        return redis.StrictRedis(connection_pool= pool)
+
+
+#red = RedisPool('fb26689b3e7f4fc3.m.cnhza.kvstore.aliyuncs.com', 6379, '', 'fb26689b3e7f4fc3:YbeNI3ByazP3', 0)
+#pip = red.pool()
+
+# Dict object:
+def conRedis(c='30068', p=1):
+    red = RedisPool('fb26689b3e7f4fc3.m.cnhza.kvstore.aliyuncs.com', 6379, '', 'fb26689b3e7f4fc3:YbeNI3ByazP3', 0)
+    pip = red.pool()
+    vip = pip.smembers('vip'+c)
+    perpage = 100
+    # 0,99      -->1  (p-1)*100,  p*100
+    #100, 200  --->2
+
+    pip.zrange('vip-'+c,(p-1)*100, p*100)
+    lix = []
+    index = pip.zrange('vip-'+c,(p-1)*100, p*100)
+    for ix in index:
+        tmp = pip.hget('vip-'+c+'-set', ix)
+        t = eval(tmp)
+        lix.append(t)
+    
+    return lix
 
 class Dict(dict):
     '''
@@ -747,7 +782,7 @@ class Request(object):
         >>> r.remote_addr
         '192.168.0.100'
         '''
-        return self._environ.get('REMOTE_ADDR', '0.0.0.0')
+        return self._environ.get('HTTP_X_FORWARDED_FOR')
 
     @property
     def document_root(self):

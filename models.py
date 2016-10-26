@@ -39,6 +39,32 @@ class BlogTag(Model):
     blog_id = StringField(updatable=False,ddl='varchar(50)')
     tag_id = StringField(updatable=False,ddl='varchar(50)')
 
+class Gather_price(Model):
+    __table__ = 'gather_price'
+    id = StringField(primary_key=True,default=next_id,ddl='varchar(50)')
+    goods_id = StringField(updatable=False,ddl='varchar(50)')
+    price = StringField(updatable=False,ddl='varchar(50)')
+    sales = StringField(updatable=False,ddl='varchar(50)')
+    rated = StringField(updatable=False,ddl='varchar(50)')
+    addtime = StringField(updatable=False,ddl='varchar(50)')
+
+class Gather_amazon(Model):
+    __table__ = 'gather_amazon'
+    id = StringField(primary_key=True,default=next_id,ddl='varchar(50)')
+    g_id = StringField(updatable=False,ddl='varchar(50)')
+    
+    
+class Gather(Model):
+    __table__ = 'gather'
+    id = StringField(primary_key=True,default=next_id,ddl='varchar(50)')
+    title = StringField(updatable=False,ddl='varchar(255)')
+    price = StringField(updatable=False,ddl='varchar(255)')
+    cover = StringField(updatable=False,ddl='varchar(255)')
+    info = StringField(updatable=False,ddl='varchar(255)')
+    base = StringField(updatable=False,ddl='varchar(255)')
+    addtime = StringField(updatable=False,ddl='varchar(255)')
+    goods_id = StringField(updatable=False,ddl='varchar(255)')
+
 
 def get_tags_from_blog(blog):
     tags = db.select('select tags.id,tags.name from tags,blogtag where tags.id=blogtag.tag_id and blogtag.blog_id="%s"' % blog.id)

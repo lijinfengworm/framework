@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-__author__ = 'Michael Liao'
+__author__ = 'kworm Li'
 
 '''
 Database operation module. This module is independent with web module.
@@ -103,6 +103,7 @@ _triggers = frozenset(['pre_insert', 'pre_update', 'pre_delete'])
 def _gen_sql(table_name, mappings):
     pk = None
     sql = ['-- generating SQL for %s:' % table_name, 'create table `%s` (' % table_name]
+    #lambda x,y: cmp(x._order, y._order) = g(x,y) : return  cmp(x._order, y._order)
     for f in sorted(mappings.values(), lambda x, y: cmp(x._order, y._order)):
         if not hasattr(f, 'ddl'):
             raise StandardError('no ddl in field "%s".' % n)

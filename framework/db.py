@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-__author__ = 'Michael Liao'
+__author__ = 'kworm'
 
 '''
 Database operation module.
@@ -9,7 +9,7 @@ Database operation module.
 
 import time, uuid, functools, threading, logging
 
-# Dict object:
+
 
 class Dict(dict):
     '''
@@ -144,7 +144,7 @@ class _Engine(object):
     def connect(self):
         return self._connect()
 
-def create_engine(user, password, database, host='192.168.9.104', port=3306, **kw):
+def create_engine(user, password, database, host='47.89.54.152', port=3306, **kw):
     #import mysql.connector
     import MySQLdb
     global engine
@@ -258,6 +258,7 @@ class _TransactionCtx(object):
         logging.warning('rollback transaction...')
         _db_ctx.connection.rollback()
         logging.info('rollback ok.')
+        
 
 def transaction():
     '''
@@ -336,9 +337,11 @@ def _select(sql, first, *args):
         if cursor:
             cursor.close()
 
+
 @with_connection
 def select_one(sql, *args):
     '''
+    调用select_one  相当于调用with_connect(select_one(sql, *args))
     Execute select SQL and expected one result. 
     If no result found, return None.
     If multiple results found, the first one returned.
@@ -478,8 +481,10 @@ def update(sql, *args):
 
 if __name__=='__main__':
     logging.basicConfig(level=logging.DEBUG)
-    create_engine('root', 'margin-right:4pxsolid#EEE;', 'test', '47.89.54.152')
-    update('drop table if exists user')
-    update('create table user (id int primary key, name text, email text, passwd text, last_modified real)')
-    import doctest
-    doctest.testmod()
+    # red = RedisPool('127.0.0.1', 6379, 0)
+    # pip = red.pool()
+
+    # vip = pip.smembers('vip30068')
+    # for v in vip:
+    #     print v
+    #     break

@@ -6,7 +6,7 @@ Configuration
 '''
 #DEBUG = False
 #SAE = True
-__author__ = 'Michael Liao'
+__author__ = 'kworm'
 
 import config_default
 import os
