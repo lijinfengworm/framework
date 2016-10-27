@@ -1,5 +1,5 @@
 #jblog
-
+test
 deploy on sae:
 
 1. Modify uyan review system's parameters which key name is review in config_default.py .
